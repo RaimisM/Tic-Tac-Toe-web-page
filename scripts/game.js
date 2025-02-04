@@ -65,6 +65,7 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
     function toggleAiMode() {
         aiModeActive = !aiModeActive;
         aiButton.textContent = aiModeActive ? "AI Mode: ON" : "AI Mode: OFF";
+        aiButton.style.backgroundColor = aiModeActive ? "green" : "red";
         restartGame();
     }
 
