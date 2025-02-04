@@ -1,5 +1,43 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f3d491;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #bedcfa;
 }
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(4, 80px);
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button {
+    margin: 3px;
+    padding: 10px 20px;
+    width: 150px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f39c12;
+}
+
+button:hover {
+    background-color: #e67e22;
+}
+
