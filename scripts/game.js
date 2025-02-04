@@ -11,11 +11,13 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
             cell.classList.toggle("highlight", winningCells.includes(index));
         });
         if (gameOver) {
-            if (winningCells.length > 0) {
-                setTimeout(() => alert(`Player ${boardState[winningCells[0]]} Wins!`), 100);
-            } else {
-                setTimeout(() => alert("It's a draw!"), 100);
-            }
+            setTimeout(() => {
+                if (winningCells.length > 0) {
+                    alert(`Player ${boardState[winningCells[0]]} wins!`);
+                } else {
+                    alert("It's a draw!");
+                }
+            }, 500);
         } else {
             turnIndicator.textContent = `Player ${currentPlayer}'s Turn`;
         }
@@ -46,18 +48,27 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
         const winner = checkWinner();
         if (winner) {
             gameOver = true;
+            if (winner === "Draw") {
+                winningCells = [];
+            }
         }
         render();
         if (aiModeActive && currentPlayer === "O" && !gameOver) setTimeout(aiMove, 500);
     }
 
     function aiMove() {
-        const emptyCells = boardState.map((v, i) => v === null ? i : null).filter(v => v !== null);
+        const emptyCells = boardState.map((value, index) => value === null ? index : null).filter(value => value !== null);
         if (emptyCells.length === 0) return;
         const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
         boardState[randomCell] = "O";
         currentPlayer = "X";
-        checkWinner();
+        const winner = checkWinner();
+        if (winner) {
+            gameOver = true;
+            if (winner === "Draw") {
+                winningCells = [];
+            }
+        }
         render();
     }
 

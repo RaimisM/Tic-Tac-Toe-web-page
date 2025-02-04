@@ -7,5 +7,4 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("restart-button"),
         document.querySelector("[ai-mode]")
     );
-    game.init();
 });
