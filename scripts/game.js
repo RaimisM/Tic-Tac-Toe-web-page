@@ -10,7 +10,15 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
             cell.textContent = boardState[index];
             cell.classList.toggle("highlight", winningCells.includes(index));
         });
-        turnIndicator.textContent = gameOver ? "Game Over" : `Player ${currentPlayer}'s turn`;
+        if (gameOver) {
+            if (winningCells.length > 0) {
+                setTimeout(() => alert(`Player ${boardState[winningCells[0]]} Wins!`), 100);
+            } else {
+                setTimeout(() => alert("It's a draw!"), 100);
+            }
+        } else {
+            turnIndicator.textContent = `Player ${currentPlayer}'s Turn`;
+        }
     }
 
     function checkWinner() {
@@ -38,7 +46,6 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
         const winner = checkWinner();
         if (winner) {
             gameOver = true;
-            turnIndicator.textContent = winner === "Draw" ? "It's a draw!" : `Player ${winner} Wins!`;
         }
         render();
         if (aiModeActive && currentPlayer === "O" && !gameOver) setTimeout(aiMove, 500);
