@@ -1,8 +1,9 @@
+import { aiMove, toggleAiMode } from "./ai.js";
+
 export function Game(board, turnIndicator, restartButton, aiButton) {
     let boardState = Array(16).fill(null);
     let currentPlayer = "X";
     let gameOver = false;
-    let aiModeActive = false;
     let winningCells = [];
 
     function render() {
@@ -53,23 +54,7 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
             }
         }
         render();
-        if (aiModeActive && currentPlayer === "O" && !gameOver) setTimeout(aiMove, 500);
-    }
-
-    function aiMove() {
-        const emptyCells = boardState.map((value, index) => value === null ? index : null).filter(value => value !== null);
-        if (emptyCells.length === 0) return;
-        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        boardState[randomCell] = "O";
-        currentPlayer = "X";
-        const winner = checkWinner();
-        if (winner) {
-            gameOver = true;
-            if (winner === "Draw") {
-                winningCells = [];
-            }
-        }
-        render();
+        if (aiMove && currentPlayer === "O" && !gameOver) setTimeout(() => aiMove(boardState, checkWinner, render, () => currentPlayer = "X"), 500);
     }
 
     function restartGame() {
@@ -80,15 +65,9 @@ export function Game(board, turnIndicator, restartButton, aiButton) {
         render();
     }
 
-    function toggleAiMode() {
-        aiModeActive = !aiModeActive;
-        aiButton.textContent = aiModeActive ? "AI Mode: ON" : "AI Mode: OFF";
-        aiButton.style.backgroundColor = aiModeActive ? "green" : "red";
-        restartGame();
-    }
-
     board.addEventListener("click", handleClick);
     restartButton.addEventListener("click", restartGame);
-    aiButton.addEventListener("click", toggleAiMode);
+    aiButton.addEventListener("click", () => toggleAiMode(aiButton, restartGame));
+
     render();
 }
